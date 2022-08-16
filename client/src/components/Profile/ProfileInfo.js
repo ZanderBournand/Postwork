@@ -16,6 +16,7 @@ import { login, logout, selectUser } from '../../features/userSlice';
 import {useDispatch, useSelector} from "react-redux"
 import LogoutIcon from '@mui/icons-material/Logout';
 import { auth } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ProfileInfo({user, posts}) {
@@ -25,10 +26,11 @@ export default function ProfileInfo({user, posts}) {
   const [aboutBody, setAboutBody] = useState((user?.about == null) ? '' : user?.about)
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const newUser = useUserMutation()
 
-  const currentUser = useSelector(selectUser);
+//   const currentUser = useSelector(selectUser);
+  const currentUser = useSelector((state) => state.auth)?.result
   const isCurrentUser = currentUser?.uid === user?.uid
 
   useEffect(() => {
@@ -61,8 +63,10 @@ export default function ProfileInfo({user, posts}) {
   }
 
    const logoutOfApp = () => {
-        dispatch(logout());
-        auth.signOut();
+        // dispatch(logout());
+        // auth.signOut();
+        dispatch({ type: 'LOGOUT'})
+        navigate('/')
     };
 
   return (
@@ -89,7 +93,7 @@ export default function ProfileInfo({user, posts}) {
                         {isCurrentUser &&
                             <>
                             <div className='interpunct2'>·</div>
-                            <button class="astext3" onClick={logoutOfApp}>
+                            <button className="astext3" onClick={logoutOfApp}>
                                 <LogoutIcon fontSize='small' sx={{color: 'gray', paddingLeft: '10px'}}/>
                                 <div className='logoutText'>Logout</div>
                             </button>
@@ -129,7 +133,7 @@ export default function ProfileInfo({user, posts}) {
                     {isCurrentUser && 
                         <>
                         <div className='interpunct2'>·</div>
-                        <button class="astext" onClick={handleFieldModeChange}>Edit</button>
+                        <button className="astext" onClick={handleFieldModeChange}>Edit</button>
                         </>
                     }
                 </div>

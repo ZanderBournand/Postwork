@@ -1,8 +1,7 @@
 export const getTimeSincePost = (timestamp) => {
 
-    let storedDate =  new Date(timestamp.seconds * 1000)
     let nowDate = new Date()
-    let diff = (nowDate.getTime() - storedDate.getTime())
+    let diff = (nowDate.getTime() - new Date(timestamp).getTime())
 
     var seconds = Math.floor(diff / 1000),
     minutes = Math.floor(seconds / 60),

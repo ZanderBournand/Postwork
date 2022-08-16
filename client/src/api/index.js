@@ -20,5 +20,6 @@ export const commentPost = (postId, comment) => API.post(`/posts/${postId}/comme
 export const deleteComment = (postId, commentId) => API.delete(`/posts/${postId}/commentPost/${commentId}`)
 export const updateComment = (postId, commentId) => API.patch(`/posts/${postId}/commentPost/${commentId}`)
 
-export const signIn = (formData) => API.post('/user/signin', formData);
-export const signUp = (formData) => API.post('/user/signup', formData);
+export const signIn = (formData) => API.post('/users/signin', formData);
+export const signUp = (formData) => API.post('/users/signup', formData);
+export const fetchUser = (userId) => API.get(`/users/${userId}`)

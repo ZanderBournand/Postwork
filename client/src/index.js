@@ -7,8 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import reducers from '../src/redux/reducers'
+
 const container = document.getElementById('root');
 const root = createRoot(container);
+
+const store2 = createStore(reducers, compose(applyMiddleware(thunk)))
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } }
@@ -16,10 +22,14 @@ const queryClient = new QueryClient({
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+    <Provider store={store2}>
+      {/* <Provider store={store}> */}
+      {/* <Provider store={store2}> */}
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      {/* </Provider> */}
+      {/* </Provider> */}
     </Provider>
   </React.StrictMode>
 );

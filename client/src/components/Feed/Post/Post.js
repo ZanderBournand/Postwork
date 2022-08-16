@@ -11,38 +11,46 @@ import { indigo, yellow, deepOrange, red } from '@mui/material/colors';
 import { useUser } from '../../../hooks/useUser';
 import { getBookmarkByPostId, getVoteByPostId, updateBookmark, updateVote } from '../../../services/posts';
 import {selectUser} from "../../../features/userSlice"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { throttle } from 'throttle-debounce';
 import { getTimeSincePost } from '../../../services/helpers';
 import LargePost from '../../PostFocus/LargePost';
 import {useNavigate} from 'react-router-dom'
 import { useUserMutation } from '../../../hooks/useUserMutation';
+import { bookmarkPost, votePost } from '../../../redux/actions/posts';
 
 export default function Post({post}) {
+
+  const user = useUser(post?.user).data
+  const currentUser = useSelector((state) => state.auth)?.result
+  const newUser = useUserMutation()
+  let navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const [bookmarked, setBookmarked] = useState(false)
   const [vote, setVote] = useState({
     state: null,
-    counter: post?.data.votesCount,
+    counter: post?.votesCount,
   })
   const [modalOpen, setModalOpen] = useState(false)
 
-  const user = useUser(post?.data.user).data
-  const currentUser = useSelector(selectUser)
-
-  const newUser = useUserMutation()
-
-  let navigate = useNavigate();
-
   useEffect(() => { 
-    getBookmarkByPostId(post?.id, currentUser?.uid).then((res) => {
-        setBookmarked(res)
-    })
-    getVoteByPostId(post?.id, currentUser?.uid).then((res) => {
-        setVote({
-            ...vote,
-            state: res
-        })
+
+    // getBookmarkByPostId(post?.id, currentUser?.uid).then((res) => {
+    //     setBookmarked(res)
+    // })
+    // getVoteByPostId(post?.id, currentUser?.uid).then((res) => {
+    //     setVote({
+    //         ...vote,
+    //         state: res
+    //     })
+    // })
+
+    setBookmarked(post?.bookmarks.includes(currentUser._id))
+    const userVote = post?.votes.find((v) => v.user === currentUser._id)
+    setVote({
+        ...vote,
+        state: (userVote != null) ? userVote.type : null
     })
   }, [])    
 
@@ -50,13 +58,14 @@ export default function Post({post}) {
     () =>
       throttle(500, (currentBookmarkStateInst) => {
         setBookmarked(!currentBookmarkStateInst);
-        updateBookmark(post, currentUser?.uid, currentBookmarkStateInst);
-        newUser.mutate({userId: user?.uid, userModified: {
-            ...user,
-            stats: {
-                bookmarksCount: user?.stats.bookmarksCount + ((currentBookmarkStateInst) ? -1 : 1)
-            }
-        }})
+        // updateBookmark(post, currentUser?.uid, currentBookmarkStateInst);
+        // newUser.mutate({userId: user?.uid, userModified: {
+        //     ...user,
+        //     stats: {
+        //         bookmarksCount: user?.stats.bookmarksCount + ((currentBookmarkStateInst) ? -1 : 1)
+        //     }
+        // }})
+        dispatch(bookmarkPost(post?._id))
       }),
     []
   );
@@ -84,7 +93,8 @@ export default function Post({post}) {
                 })
             }
         }
-        updateVote(post?.id, currentUser?.uid, currentVoteStateInst, type);
+        // updateVote(post?.id, currentUser?.uid, currentVoteStateInst, type);
+        dispatch(votePost(post?._id, type))
       }),
     []
   );
@@ -111,7 +121,7 @@ export default function Post({post}) {
                 </div>
                 <div className='subInformatioContainer2'>
                     <div className='title'>   
-                        {post?.data?.title}
+                        {post?.title}
                     </div>
                     <div className='userInfo'>
                         <div className='pictureContainer'>
@@ -120,7 +130,7 @@ export default function Post({post}) {
                         </div>
                         <div className='extraInfo'>
                             <div className='userName'>
-                                <button class="astext2" onClick={handleProfileNavigation}>{user?.displayName}</button>
+                                <button className="astext2" onClick={handleProfileNavigation}>{user?.displayName}</button>
                                 {user?.recruiter &&
                                 <div className='recruiterContainer'>
                                     <StarRoundedIcon sx={{fontSize: 24, color: '#FFBC00'}}/>
@@ -131,8 +141,8 @@ export default function Post({post}) {
                                 }
                             </div>
                             <div className='date'>
-                                {post?.data?.timestamp != null ? 
-                                    getTimeSincePost(post?.data?.timestamp)
+                                {post?.timestamp != null ? 
+                                    getTimeSincePost(post?.timestamp)
                                     : 
                                     ''
                                 }
@@ -143,13 +153,13 @@ export default function Post({post}) {
                 <div className='subInformatioContainer3'>
                     <div>
                         <div className='tagContainer'>
-                            <div className='tag'>{post?.data?.tag}</div>
+                            <div className='tag'>{post?.tag}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className='descriptionContainer'>
-                <p className='description'>{post?.data?.details}</p>
+                <p className='description'>{post?.details}</p>
             </div>
             <div className='buttonsContainer'>
                 <div className='bookmarkContainer'>

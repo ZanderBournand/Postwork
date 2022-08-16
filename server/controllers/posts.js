@@ -51,16 +51,16 @@ export const bookmarkPost = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const post = await PostMessage.findById(id);
+    const post = await Post.findById(id);
     const index = post.bookmarks.findIndex((id) => id === String(req.userId));
 
     if (index === -1) {
         post.bookmarks.push(req.userId);
     } else {
-        post.bookmarks = post.bookmakrs.filter((id) => id !== String(req.userId));
+        post.bookmarks = post.bookmarks.filter((id) => id !== String(req.userId));
     }
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);
 
 }
@@ -69,7 +69,7 @@ export const createPost = async (req, res) => {
     
     const post = req.body;
 
-    const newPost = new PostMessage({...post, user: req.userId, votesCount: 0, timestamp: new Date().toISOString()});
+    const newPost = new Post({...post, user: req.userId, votesCount: 0, timestamp: new Date().toISOString()});
 
     try {
 
@@ -91,12 +91,12 @@ export const votePost = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const post = await PostMessage.findById(id);
+    const post = await Post.findById(id);
     const index = post.votes.findIndex((p) => p.user === String(req.userId));
 
     if (index === -1) {
         post.votes.push({
-            user: req.userId,
+            user: String(req.userId),
             type: type
         });
         post.votesCount = (type === "up") ? post.votesCount + 1 : post.votesCount - 1
@@ -111,7 +111,7 @@ export const votePost = async (req, res) => {
         }
     }
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);
 
 }
@@ -127,7 +127,7 @@ export const commentPost = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const post = await PostMessage.findById(id);
+    const post = await Post.findById(id);
     post.comments.push({
         ...comment, 
         user: req.userId,
@@ -135,7 +135,7 @@ export const commentPost = async (req, res) => {
         timestamp: new Date().toISOString()
     });
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);
 
 }
@@ -150,10 +150,10 @@ export const deleteComment = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const post = await PostMessage.findById(id);
+    const post = await Post.findById(id);
     post.comments = post.comments.filter((c) => c.id !== commentId)
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);
 
 }
@@ -170,11 +170,11 @@ export const updateComment = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const post = await PostMessage.findById(id);
+    const post = await Post.findById(id);
     commentIndex = post.comments.findIndex((c) => c.id === commentId)
     post.comments[commentIndex].comment = comment
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);
     
 }

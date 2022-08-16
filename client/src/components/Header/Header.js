@@ -7,16 +7,19 @@ import HeaderOption from './HeaderOption';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../../firebase';
 import { logout, selectUser } from '../../features/userSlice';
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { changeSearch } from '../../features/searchSlice';
+import decode from 'jwt-decode'
 
 export default function Header() {
     
-    const currentUser = useSelector(selectUser);
+    // const currentUser = useSelector(selectUser);
+    const currentUser = useSelector((state) => state.auth)?.result
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    const location = useLocation()
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -26,7 +29,6 @@ export default function Header() {
     };
 
     const handleProfileNavigation = () => {
-        console.log("current user is: ", currentUser);
         navigate('/profile/' + currentUser?.displayName.replace(/\s/g , "-"), {state: {user: currentUser}})
     }
 
@@ -45,6 +47,20 @@ export default function Header() {
         }
     }, [searchTerm])
 
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('profile'))?.token
+       
+        if (token) {
+            const decodedToken = decode(token)
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                dispatch({ type: 'LOGOUT'})
+                navigate('/')
+            
+            }
+        }
+
+    }, [location])
+
     if(!currentUser){
         return (
             <div className='header'>
@@ -59,7 +75,8 @@ export default function Header() {
                     <HeaderOption
                         avatar={true}
                         title='Me'
-                        onClick={logoutOfApp}/>
+                        onClick={logoutOfApp}
+                    />
                 </div>
             </div>
         )

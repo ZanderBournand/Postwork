@@ -57,7 +57,7 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
                             {user?.photoUrl == null && <input type="image" id="saveform" src={'https://cdn.wallpapersafari.com/8/21/es5Bd6.jpg'} className='profilePic' onClick={handleProfileNavigation}/>}
                             </div>
                             <div className='extraInfo'>
-                                <button class="astext2" onClick={handleProfileNavigation}>
+                                <button className="astext2" onClick={handleProfileNavigation}>
                                     {user?.displayName}
                                     </button>
                                 <div className='date'>

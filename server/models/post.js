@@ -1,5 +1,18 @@
 import mongoose from "mongoose";
 
+const voteSchema = mongoose.Schema({
+    user: String,
+    type: String,
+})
+
+const commentSchema = mongoose.Schema({
+    comment: String,
+    parentId: String,
+    user: String,
+    id: String,
+    timestamp: { type: Date, default: new Date()},
+})
+
 const postSchema = mongoose.Schema({
     title: String,
     details: String,
@@ -11,20 +24,11 @@ const postSchema = mongoose.Schema({
         default: [],
     },
     votes: {
-        type: [{
-            user: String,
-            type: String,
-        }],
+        type: [voteSchema],
         default: []
     },
     comments: {
-        type: [{
-            comment: String,
-            parentId: String,
-            user: String,
-            id: String,
-            timestamp: { type: Date, default: new Date()},
-        }],
+        type: [commentSchema],
         default: []
     },
     timestamp: {

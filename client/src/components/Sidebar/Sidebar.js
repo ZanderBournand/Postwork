@@ -11,11 +11,14 @@ import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded';
 import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import { indigo, yellow, deepOrange, red } from '@mui/material/colors';
 import { changePostsType } from "../../features/postsTypeSlice";
+import { createPost } from "../../redux/actions/posts";
 
 export default function Sidebar() {
 
-    const currentUser = useSelector(selectUser);
+    // const currentUser = useSelector(selectUser);
+    const currentUser = useSelector((state) => state.auth)?.result
     const [postsType, setPostsType] = useState('hot')
+
 
     const dispatch = useDispatch();
 
@@ -41,7 +44,8 @@ export default function Sidebar() {
                 tag:"",
                 details:"",
             })
-            sendPost(currentUser?.uid, input.title, input.tag, input.details)
+            // sendPost(currentUser?.uid, input.title, input.tag, input.details)
+            dispatch(createPost({title: input.title, tag: input.tag, details: input.details}))
         }
     };
 

@@ -1,0 +1,33 @@
+.app{
+    background-color: #f3f2ef;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.app_body{
+    display: flex;
+    background-color: #f3f2ef;
+    height: auto;
+    min-height: 100vh;
+}
+.appLoader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh
+}
+
+*{
+-ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+display: none;
+}
+.profile_body{
+    display: flex;
+    background-color: #f3f2ef;
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+}

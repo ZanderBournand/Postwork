@@ -1,0 +1,23 @@
+.containerBookmarks{
+    position:sticky;
+    flex: 1;
+    margin-top: 3%;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.loaderContainerBookmarks{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    margin-top: 20px;
+}
+.noBookmarksContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+}
+.noBookmarksText{
+    font-size: 18px;
+    font-weight: 600;
+}

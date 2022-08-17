@@ -10,7 +10,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Comments({post}) {
 
-  const currentUser = useSelector(selectUser)
+  const currentUser = useSelector((state) => state.auth)?.result
 
   const [comments, setComments] = useState([])
   const rootComments = comments.filter(
@@ -68,7 +68,7 @@ export default function Comments({post}) {
                 Comments
             </div>
             <div className='commentCountContainer'>
-                <div className='commentCount'>{post?.data.commentsCount}</div>
+                <div className='commentCount'>{post?.comments.length}</div>
             </div>
         </div>
         <CommentForm submitLable="write" handleSubmit={addComment}/>

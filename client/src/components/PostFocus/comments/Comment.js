@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Comment({comment, replies, deleteComment, addComment, activeComment, setActiveComment, parentId = null, updateComment}) {
 
   const user = useUser(comment?.user).data
-  const currentUser = useSelector(selectUser)
+  const currentUser = useSelector((state) => state.auth)?.result
 
   const [showReplies, setShowReplies] = useState(false)
 

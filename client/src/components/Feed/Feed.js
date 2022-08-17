@@ -22,7 +22,7 @@ export default function Feed() {
   // const currentPostsType = useSelector(selectPostsType)
   // const currentSearchState = useSelector(selectSearch)
 
-  const postsRedux = useSelector((state) => state.posts)
+  const postsRedux = useSelector((state) => state.posts.posts)
 
   useEffect(() => {
     dispatch(getPosts())

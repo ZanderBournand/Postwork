@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 export default function LargePost({isOpen, setModalOpen, post, user, bookmarked, handleUpdateBookmark, vote, handleUpdateVote}) {
 
   const [open, setOpen] = useState(isOpen)
-  const currentUser = useSelector(selectUser)
+  const currentUser = useSelector((state) => state.auth)?.result
 
   const handleClose = () => setModalOpen(false);
 
@@ -49,7 +49,7 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
                     </div>
                     <div className='subInformatioContainer2'>
                         <div className='title'>   
-                            {post?.data?.title}
+                            {post?.title}
                         </div>
                         <div className='userInfo'>
                             <div className='pictureContainer'>
@@ -61,8 +61,8 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
                                     {user?.displayName}
                                     </button>
                                 <div className='date'>
-                                    {post?.data?.timestamp != null ? 
-                                        getTimeSincePost(post?.data?.timestamp)
+                                    {post?.timestamp != null ? 
+                                        getTimeSincePost(post?.timestamp)
                                         : 
                                         ''
                                     }
@@ -73,13 +73,13 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
                     <div className='subInformatioContainer3'>
                         <div>
                             <div className='tagContainer'>
-                                <div className='tag'>{post?.data?.tag}</div>
+                                <div className='tag'>{post?.tag}</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className='descriptionContainer2'>
-                    <p className='description4'>{post?.data?.details}</p>
+                    <p className='description4'>{post?.details}</p>
                 </div>
                 <div className='buttonsContainer2'>
                     <div className='bookmarkContainer'>

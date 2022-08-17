@@ -12,12 +12,14 @@ import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import { indigo, yellow, deepOrange, red } from '@mui/material/colors';
 import { changePostsType } from "../../features/postsTypeSlice";
 import { createPost } from "../../redux/actions/posts";
+import { SORT_POSTS_HOT, SORT_POSTS_NEW } from "../../redux/constants";
 
 export default function Sidebar() {
 
     // const currentUser = useSelector(selectUser);
     const currentUser = useSelector((state) => state.auth)?.result
-    const [postsType, setPostsType] = useState('hot')
+    const postsType = useSelector((state) => state.posts.type)
+    // const [postsType, setPostsType] = useState('hot')
 
 
     const dispatch = useDispatch();
@@ -50,8 +52,14 @@ export default function Sidebar() {
     };
 
     const handlePostsTypeChange = (type) => {
-        dispatch(changePostsType(type))
-        setPostsType(type)
+        if (type === "hot") {
+            dispatch({ type: SORT_POSTS_HOT })
+        }
+        else if (type === "new") {
+            dispatch({ type: SORT_POSTS_NEW })
+        }
+        // dispatch(changePostsType(type))
+        // setPostsType(type)
     }
 
     return (

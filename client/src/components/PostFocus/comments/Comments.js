@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { selectUser } from '../../../features/userSlice'
-import { deleteComment, getComments, sendComment, updateComment } from '../../../services/posts'
+// import { getComments, sendComment, updateComment } from '../../../services/posts'
 import {Card, Modal, Button, IconButton, TextField, } from '@mui/material';
 import "./AllComments.css"
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import ClipLoader from "react-spinners/ClipLoader";
+import { createComment, deleteComment, updateComment } from '../../../redux/actions/posts';
 
 export default function Comments({post}) {
 
   const currentUser = useSelector((state) => state.auth)?.result
+  
+  const dispatch = useDispatch()
 
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState(post?.comments.sort((a, b) => (new Date(a?.timestamp) >new Date(b?.timestamp)) ? -1: 1))
+  const [commentsCount, setCommentsCount] = useState(post?.comments.length)
   const rootComments = comments.filter(
     (comment) => comment.parentId === null
   )
@@ -28,37 +32,44 @@ export default function Comments({post}) {
         return timestamp1 - timestamp2
     })
   }
-  useEffect(() => {
-    getComments(post?.id).then((res) => {
-        setComments(res)
-    })
-  }, [])
+  // useEffect(() => {
+  //   getComments(post?.id).then((res) => {
+  //       setComments(res)
+  //   })
+  // }, [])
 
   const addComment = (body, parentId) => {
-    sendComment(post, parentId, body, currentUser?.uid).then((res) => {
-        setComments([res, ...comments])
-        setActiveComment(null)
+    // sendComment(post, parentId, body, currentUser?.uid).then((res) => {
+    //     setComments([res, ...comments])
+    //     setActiveComment(null)
+    // })
+    setActiveComment(null)
+    dispatch(createComment(post._id, { comment: body, parentId: parentId})).then((res) => {
+      setCommentsCount(commentsCount + 1)
+      setComments(res?.comments.sort((a, b) => (new Date(a?.timestamp) >new Date(b?.timestamp)) ? -1: 1))
     })
   }
 
   const handleUpdateComment = (body, commentId) => {
     const updatedComments = comments.map((comment) => {
-        if (comment.id == commentId) {
+        if (comment._id == commentId) {
             return {...comment, comment: body}
         }
         return comment
     })
     setComments(updatedComments)
     setActiveComment(null)
-    updateComment(post?.id, body, commentId)
+    dispatch(updateComment(post._id, commentId, body))
   }
 
   const handleDeleteComment = (commentId) => {
     const updatedComments = comments.filter(
-        (comment) => comment.id != commentId
+        (comment) => comment._id != commentId
     )
     setComments(updatedComments)
-    deleteComment(post?.id, commentId)
+    setCommentsCount(commentsCount - 1)
+    // deleteComment(post?.id, commentId)
+    dispatch(deleteComment(post._id, commentId))
   }
 
   return (
@@ -68,7 +79,7 @@ export default function Comments({post}) {
                 Comments
             </div>
             <div className='commentCountContainer'>
-                <div className='commentCount'>{post?.comments.length}</div>
+                <div className='commentCount'>{commentsCount}</div>
             </div>
         </div>
         <CommentForm submitLable="write" handleSubmit={addComment}/>
@@ -80,9 +91,9 @@ export default function Comments({post}) {
             <div className='commentsList'>
                 {rootComments.map((rootComment) => (
                     <Comment 
-                        key={rootComment.id} 
+                        key={rootComment._id} 
                         comment={rootComment} 
-                        replies={getReplies(rootComment.id)}
+                        replies={getReplies(rootComment._id)}
                         deleteComment={handleDeleteComment}
                         updateComment={handleUpdateComment}
                         activeComment={activeComment}

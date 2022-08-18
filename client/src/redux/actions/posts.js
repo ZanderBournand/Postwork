@@ -1,4 +1,4 @@
-import { CREATE_POST, FETCH_ALL, UPDATE_POST } from '../constants'
+import { CREATE_POST, FETCH_ALL, UPDATE_POST, CREATE_COMMENT, UPDATE_COMMENT, DELETE_COMMENT, SEARCH_POSTS, UPDATE_BOOKMARKS} from '../constants'
 import * as api from '../../api'
 
 export const getPosts = () => async (dispatch) => {
@@ -20,9 +20,12 @@ export const createPost = (post) => async (dispatch) => {
 }
 
 export const bookmarkPost = (id) => async (dispatch) => {
+
+    const currentUserId = JSON.parse(localStorage.getItem('profile'))?.result?._id
+
     try {
         const { data } = await api.bookmarkPost(id)
-        console.log(data)
+        dispatch({ type: UPDATE_BOOKMARKS, payload: data })
         dispatch({ type: UPDATE_POST, payload: data})
     } catch (error) {
         console.log(error)
@@ -32,8 +35,45 @@ export const bookmarkPost = (id) => async (dispatch) => {
 export const votePost = (id, type) => async (dispatch) => {
     try {
         const { data } = await api.votePost(id, type)
+        dispatch({ type: UPDATE_POST, payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const createComment = (id, comment) => async (dispatch) => {
+    try {
+        const { data } = await api.commentPost(id, comment)
+        dispatch({ type: UPDATE_POST, payload: data})
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const updateComment = (id, commentId, comment) => async (dispatch) => {
+    try {
+        const { data } = await api.updateComment(id, commentId, { body: comment })
+        dispatch({ type: UPDATE_POST, payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteComment = (id, commentId) => async (dispatch) => {
+    try {
+        const { data } = await api.deleteComment(id, commentId)
         console.log(data)
         dispatch({ type: UPDATE_POST, payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const searchPosts = (searchTerm) => async (dispatch) => {
+    try {
+        console.log('dispatching with: ', searchTerm)
+        dispatch({ type: SEARCH_POSTS, payload: searchTerm })
     } catch (error) {
         console.log(error)
     }

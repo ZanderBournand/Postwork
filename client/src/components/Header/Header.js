@@ -12,6 +12,7 @@ import {useNavigate} from 'react-router-dom'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { changeSearch } from '../../features/searchSlice';
 import decode from 'jwt-decode'
+import { searchPosts } from '../../redux/actions/posts';
 
 export default function Header() {
     
@@ -33,18 +34,19 @@ export default function Header() {
     }
 
     useEffect(() => {
-        if (searchTerm.length >0 ) {
-            dispatch(changeSearch({
-                searching: true,
-                searchWord: searchTerm.toLowerCase(),
-            }))
-        }
-        else {
-            dispatch(changeSearch({
-                searching: false,
-                searchWord: null,
-            }))
-        }
+        // if (searchTerm.length >0 ) {
+        //     dispatch(changeSearch({
+        //         searching: true,
+        //         searchWord: searchTerm.toLowerCase(),
+        //     }))
+        // }
+        // else {
+        //     dispatch(changeSearch({
+        //         searching: false,
+        //         searchWord: null,
+        //     }))
+        // }
+        dispatch(searchPosts(searchTerm))
     }, [searchTerm])
 
     useEffect(() => {

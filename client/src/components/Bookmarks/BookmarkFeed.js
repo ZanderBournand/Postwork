@@ -12,7 +12,11 @@ export default function BookmarkFeed() {
 
   const [bookmarks, setBookmarks] = useState(null)
   const [posts, setPosts] = useState(null)
-  const currentUser = useSelector(selectUser);
+  // const currentUser = useSelector(selectUser);
+
+  const testBookmarks = useSelector((state) => state.posts.bookmarkedPosts)
+
+  console.log(testBookmarks)
 
   const bookmarkedPosts = posts?.filter(
     (post) => {
@@ -26,22 +30,23 @@ export default function BookmarkFeed() {
   )
 
   useEffect(() => {
-    getBookmarksById(currentUser?.uid, setBookmarks)
-    getFeedOnce().then((res) => {
-      setPosts(res)
-    })
+    // getBookmarksById(currentUser?.uid, setBookmarks)
+    // getFeedOnce().then((res) => {
+    //   setPosts(res)
+    // })
+
   }, [])
 
   return (
     <div className='containerBookmarks'>
-      {bookmarkedPosts == null ?
+      {testBookmarks == null ?
         <div className='loaderContainerBookmarks'>
           <ClipLoader size={20} color='gray' loading={true}/>
         </div>
         :
-        bookmarkedPosts.length > 0 ?
+        testBookmarks.length > 0 ?
         <Grid style={{}} className='grid' container alignItems="stretch" spacing={3}>
-          {bookmarkedPosts.map((post) => (
+          {testBookmarks.map((post) => (
             <Grid key={post.id} item xs={12} sm={12} md={6} lg={6} xl={4}>
               <Post post={post}/>
             </Grid>

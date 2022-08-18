@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from "react-redux"
 import LogoutIcon from '@mui/icons-material/Logout';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { updateUser } from '../../redux/actions/auth';
 
 
 export default function ProfileInfo({user, posts}) {
@@ -35,7 +36,7 @@ export default function ProfileInfo({user, posts}) {
 
   useEffect(() => {
     if (posts != null) {
-        setStats([user?.stats?.bookmarksCount, ...getPostsStats(posts)])
+        setStats([...getPostsStats(posts)])
     }
   }, [posts])
 
@@ -51,15 +52,16 @@ export default function ProfileInfo({user, posts}) {
   const handleAboutChange = () => {
     setFieldMode(false)
     user.about = aboutBody
-    newUser.mutate({userId: user?.uid, userModified: {
-        ...user,
-        about: aboutBody
-    }})
-    dispatch(login({
-        ...currentUser,
-        about: aboutBody
-    }))
-    updateUserAbout(user?.uid, aboutBody)
+    // newUser.mutate({userId: user?.uid, userModified: {
+    //     ...user,
+    //     about: aboutBody
+    // }})
+    // dispatch(login({
+    //     ...currentUser,
+    //     about: aboutBody
+    // }))
+    // updateUserAbout(user?.uid, aboutBody)
+    dispatch(updateUser(user?._id, { about: aboutBody}))
   }
 
    const logoutOfApp = () => {

@@ -6,7 +6,6 @@ import Sidebar from "../components/Sidebar/Sidebar";
 export default function Home(){
 
     const currentUser = useSelector((state) => state.auth);
-
     return(
         <div className="app_body">
             <Feed />

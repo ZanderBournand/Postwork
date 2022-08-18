@@ -22,12 +22,12 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
   const [showReplies, setShowReplies] = useState(false)
 
   const fiveMinutes = 300000
-  const timePassed = new Date() - new Date(comment?.timestamp.seconds * 1000) > fiveMinutes
-  const canEdit = currentUser?.uid === comment?.user && !timePassed
-  const canDelete = currentUser?.uid === comment?.user && !timePassed
-  const isReplying = activeComment && activeComment.type === 'replying' && activeComment.id === comment.id
-  const isEditing = activeComment && activeComment.type === 'editing' && activeComment.id === comment.id
-  const replyId = parentId ? parentId : comment.id
+  const timePassed = new Date() - new Date(comment?.timestamp) > fiveMinutes
+  const canEdit = currentUser?._id  === comment?.user && !timePassed
+  const canDelete = currentUser?._id === comment?.user && !timePassed
+  const isReplying = activeComment && activeComment.type === 'replying' && activeComment.id === comment._id
+  const isEditing = activeComment && activeComment.type === 'editing' && activeComment.id === comment._id
+  const replyId = parentId ? parentId : comment._id
 
   let navigate = useNavigate()
 
@@ -63,7 +63,7 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
                     submitLabel="Update" 
                     hasCancelButton 
                     initialText={comment.comment} 
-                    handleSubmit={(commentBody) => updateComment(commentBody, comment.id)}
+                    handleSubmit={(commentBody) => updateComment(commentBody, comment._id)}
                     handleCancel={() => setActiveComment(null)}
                 />
             )}
@@ -81,11 +81,11 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
             )}
             <div className='ButtonContainer'>
                 <Button size="small" sx={{color: 'gray', textTransform: 'none'}} onClick={() => {
-                    if (JSON.stringify(activeComment) === JSON.stringify({id: comment.id, type: 'replying'})) {
+                    if (JSON.stringify(activeComment) === JSON.stringify({id: comment._id, type: 'replying'})) {
                         setActiveComment(null)
                     }
                     else {
-                        setActiveComment({id: comment.id, type: 'replying'})
+                        setActiveComment({id: comment._id, type: 'replying'})
                     }
                 }}>
                     <div className='Button'>
@@ -96,12 +96,12 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
             </div>
             {canEdit && 
             <div className='ButtonContainer'>
-                <Button size="small" sx={{color: 'gray', textTransform: 'none'}} onClick={() => {        
-                    if (JSON.stringify(activeComment) === JSON.stringify({id: comment.id, type: 'editing'})) {
+                <Button size="small" sx={{color: 'gray', textTransform: 'none'}} onClick={() => {      
+                    if (JSON.stringify(activeComment) === JSON.stringify({id: comment._id, type: 'editing'})) {
                         setActiveComment(null)
                     }
                     else {
-                        setActiveComment({id: comment.id, type: 'editing'})
+                        setActiveComment({id: comment._id, type: 'editing'})
                     }
                 }}>
                     <div className='Button'>
@@ -112,7 +112,7 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
             </div>}
             {canDelete && 
             <div className='ButtonContainer'>
-                <Button size="small" sx={{color: 'gray', textTransform: 'none'}} onClick={() => deleteComment(comment?.id)}>
+                <Button size="small" sx={{color: 'gray', textTransform: 'none'}} onClick={() => deleteComment(comment?._id)}>
                     <div className='Button'>
                         <DeleteForeverIcon sx={{color: 'gray'}} fontSize="small" />
                         <p className='ButtonText'>Delete</p>
@@ -133,12 +133,12 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
                 {replies.map((reply) => (
                     <Comment 
                         comment={reply} 
-                        key={reply.id} 
+                        key={reply._id} 
                         replies={[]}
                         deleteComment={deleteComment}
                         updateComment={updateComment}
                         addComment={addComment}
-                        parentId={comment.id}
+                        parentId={comment._id}
                         activeComment={activeComment}
                         setActiveComment={setActiveComment}
                     />

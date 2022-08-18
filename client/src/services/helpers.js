@@ -73,15 +73,18 @@ function epochSeconds(d){
 
 export const getPostsStats = (posts) => {
 
+    let bookmarks = 0;
     let comments = 0;
     let votes = 0;
 
     posts.forEach((post) => {
-        comments += post?.data.commentsCount
-        votes += post?.data.votesCount
+        console.log(post)
+        bookmarks += post?.bookmarks.length
+        comments += post?.comments.length
+        votes += post?.votesCount
     })
 
-    return [comments, votes]
+    return [bookmarks, comments, votes]
 
 
 }

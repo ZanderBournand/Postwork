@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js'
+import mongoose from "mongoose";
 
 export const signin = async (req, res) => {
 
@@ -63,4 +64,21 @@ export const getUser = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 
+}
+
+export const updateUserAbout = async (req, res) => {
+
+    const { id } = req.params;
+    const changes = req.body
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No user with that id');
+
+    try {
+        const user = await User.findById(id)
+        user.about = changes.about
+        const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 }

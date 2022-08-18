@@ -1,4 +1,4 @@
-import { LOGIN }  from '../constants/index'
+import { LOGIN, UPDATE_USER }  from '../constants/index'
 import * as api from '../../api'
 
 export const signin = (formData, navigate) => async (dispatch) => {
@@ -24,3 +24,12 @@ export const signup = (formData, navigate) => async (dispatch) => {
       console.log(error);
     }
 };
+
+export const updateUser = (id, userChanges) => async (dispatch) => {
+  try {
+    const { data } = await api.updateUser(id, userChanges);
+    dispatch({ type: UPDATE_USER, data})
+  } catch (error) {
+    console.log(error);
+  }
+}

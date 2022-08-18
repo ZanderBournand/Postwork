@@ -18,8 +18,9 @@ export const createPost = (newPost) => API.post('/posts', newPost);
 export const votePost = (postId, type) => API.patch(`/posts/${postId}/votePost/${type}`)
 export const commentPost = (postId, comment) => API.post(`/posts/${postId}/commentPost`, comment)
 export const deleteComment = (postId, commentId) => API.delete(`/posts/${postId}/commentPost/${commentId}`)
-export const updateComment = (postId, commentId) => API.patch(`/posts/${postId}/commentPost/${commentId}`)
+export const updateComment = (postId, commentId, comment) => API.patch(`/posts/${postId}/commentPost/${commentId}`, comment)
 
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
 export const fetchUser = (userId) => API.get(`/users/${userId}`)
+export const updateUser = (userId, userUpdates) => API.patch(`/users/update/${userId}/about`, userUpdates)

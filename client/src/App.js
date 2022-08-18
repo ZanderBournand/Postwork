@@ -13,6 +13,7 @@ import Bookmarks from "./pages/bookmarks";
 import Profile from "./pages/profile";
 import { getUserById } from "./services/user";
 import { LOGIN } from "./redux/constants";
+import { getPosts } from "./redux/actions/posts";
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
     const cachedUser = JSON.parse(localStorage.getItem('profile'))
     if (cachedUser?.result != null) {
       dispatch({ type: LOGIN, data: cachedUser });
+      dispatch(getPosts())
     }
     setLoaded(true)
   }, [loaded])

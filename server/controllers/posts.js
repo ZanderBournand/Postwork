@@ -126,12 +126,12 @@ export const commentPost = async (req, res) => {
     }
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-
+    
     const post = await Post.findById(id);
     post.comments.push({
-        ...comment, 
+        comment: comment?.comment,
+        parentId: (comment?.parentId) ? comment.parentId: null,
         user: req.userId,
-        id: ObjectId().toString(),
         timestamp: new Date().toISOString()
     });
 
@@ -151,7 +151,7 @@ export const deleteComment = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
     const post = await Post.findById(id);
-    post.comments = post.comments.filter((c) => c.id !== commentId)
+    post.comments = post.comments.filter((c) => c._id.toString() !== commentId)
 
     const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);
@@ -171,8 +171,7 @@ export const updateComment = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
     const post = await Post.findById(id);
-    commentIndex = post.comments.findIndex((c) => c.id === commentId)
-    post.comments[commentIndex].comment = comment
+    post.comments = post.comments.map((c) => (c._id.toString() === commentId) ? { ...c, comment: comment.body} : c)
 
     const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
     res.status(200).json(updatedPost);

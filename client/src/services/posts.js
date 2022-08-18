@@ -1,5 +1,7 @@
 import { where, collectionGroup, query, collection, onSnapshot, orderBy, addDoc, serverTimestamp, getDoc, doc, deleteDoc, setDoc, updateDoc, increment, getDocs, documentId } from "firebase/firestore";
 import { db } from '../firebase'
+import * as api from '../api'
+
 
 export const getFeed = (setPosts) => {
 
@@ -17,22 +19,22 @@ export const getFeed = (setPosts) => {
 
 }
 
-export const getPostsByUser = (user) => new Promise((resolve, reject) => {
+// export const getPostsByUser = (user) => new Promise((resolve, reject) => {
 
-    const q = query(collection(db, "posts"), where("user", "==", user));
+//     const q = query(collection(db, "posts"), where("user", "==", user));
 
-    getDocs(q)
-    .then((res) => {
-      let posts = res.docs.map(doc => (
-        {
-          id: doc.id,
-          data: doc.data()
-        }
-      ))
-      resolve(posts)
-    })
+//     getDocs(q)
+//     .then((res) => {
+//       let posts = res.docs.map(doc => (
+//         {
+//           id: doc.id,
+//           data: doc.data()
+//         }
+//       ))
+//       resolve(posts)
+//     })
 
-})
+// })
 
 export const getBookmarksById = (currentUser, setBookmarks) => {
 
@@ -208,3 +210,13 @@ export const updateComment = (postId, comment, commentId) => new Promise((resolv
   })
 
 })
+
+///////////////////////
+
+
+export const getPostsByUser = async (userId) => {
+
+  const { data } = await api.fetchUserPosts(userId)
+  return data.data
+
+}

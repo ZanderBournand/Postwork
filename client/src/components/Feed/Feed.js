@@ -24,9 +24,10 @@ export default function Feed() {
 
   const postsRedux = useSelector((state) => state.posts.posts)
 
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [])
+  // useEffect(() => {
+  //   console.log("GETTING NEW POSTS")
+  //   dispatch(getPosts())
+  // }, [])
 
   useEffect(() => {
     setCurrentPosts(postsRedux)

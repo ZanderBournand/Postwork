@@ -1,26 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Avatar, TextField, Box, Button} from '@mui/material'
 import "./Sidebar.css";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser } from "../../features/userSlice";
-import { sendPost } from "../../services/posts";
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded';
 import WhatshotOutlinedIcon from '@mui/icons-material/WhatshotOutlined';
 import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded';
 import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
-import { indigo, yellow, deepOrange, red } from '@mui/material/colors';
-import { changePostsType } from "../../features/postsTypeSlice";
+import { indigo } from '@mui/material/colors';
 import { createPost } from "../../redux/actions/posts";
 import { SORT_POSTS_HOT, SORT_POSTS_NEW } from "../../redux/constants";
 
 export default function Sidebar() {
 
-    // const currentUser = useSelector(selectUser);
     const currentUser = useSelector((state) => state.auth)?.result
     const postsType = useSelector((state) => state.posts.type)
-    // const [postsType, setPostsType] = useState('hot')
-
 
     const dispatch = useDispatch();
 
@@ -46,7 +40,6 @@ export default function Sidebar() {
                 tag:"",
                 details:"",
             })
-            // sendPost(currentUser?.uid, input.title, input.tag, input.details)
             dispatch(createPost({title: input.title, tag: input.tag, details: input.details}))
         }
     };
@@ -58,8 +51,6 @@ export default function Sidebar() {
         else if (type === "new") {
             dispatch({ type: SORT_POSTS_NEW })
         }
-        // dispatch(changePostsType(type))
-        // setPostsType(type)
     }
 
     return (

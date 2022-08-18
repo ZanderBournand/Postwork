@@ -5,17 +5,11 @@ import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import { getPostsStats } from '../../services/helpers';
-import {Card, Modal, Button, IconButton, TextField, Avatar, InputAdornment} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import SendIcon from '@mui/icons-material/Send';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, IconButton, TextField, Avatar, InputAdornment} from '@mui/material';
 import OutboundIcon from '@mui/icons-material/Outbound';
-import { updateUserAbout } from '../../services/user';
 import { useUserMutation } from '../../hooks/useUserMutation';
-import { login, logout, selectUser } from '../../features/userSlice';
 import {useDispatch, useSelector} from "react-redux"
 import LogoutIcon from '@mui/icons-material/Logout';
-import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../redux/actions/auth';
 
@@ -30,7 +24,6 @@ export default function ProfileInfo({user, posts}) {
   const navigate = useNavigate()
   const newUser = useUserMutation()
 
-//   const currentUser = useSelector(selectUser);
   const currentUser = useSelector((state) => state.auth)?.result
   const isCurrentUser = currentUser?.uid === user?.uid
 
@@ -52,21 +45,10 @@ export default function ProfileInfo({user, posts}) {
   const handleAboutChange = () => {
     setFieldMode(false)
     user.about = aboutBody
-    // newUser.mutate({userId: user?.uid, userModified: {
-    //     ...user,
-    //     about: aboutBody
-    // }})
-    // dispatch(login({
-    //     ...currentUser,
-    //     about: aboutBody
-    // }))
-    // updateUserAbout(user?.uid, aboutBody)
     dispatch(updateUser(user?._id, { about: aboutBody}))
   }
 
    const logoutOfApp = () => {
-        // dispatch(logout());
-        // auth.signOut();
         dispatch({ type: 'LOGOUT'})
         navigate('/')
     };

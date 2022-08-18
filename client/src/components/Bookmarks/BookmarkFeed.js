@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import "./BookmarkFeed.css";
-import { db } from '../../firebase'
 import Grid from '@mui/material/Grid';
 import ClipLoader from "react-spinners/ClipLoader";
-import { getBookmarksById, getBookmarkedPosts, getFeedOnce } from '../../services/posts';
-import { selectUser } from '../../features/userSlice';
 import { useSelector } from 'react-redux';
 import Post from '../Feed/Post/Post';
 
@@ -12,7 +9,6 @@ export default function BookmarkFeed() {
 
   const [bookmarks, setBookmarks] = useState(null)
   const [posts, setPosts] = useState(null)
-  // const currentUser = useSelector(selectUser);
 
   const testBookmarks = useSelector((state) => state.posts.bookmarkedPosts)
 
@@ -28,15 +24,7 @@ export default function BookmarkFeed() {
       }
     }
   )
-
-  useEffect(() => {
-    // getBookmarksById(currentUser?.uid, setBookmarks)
-    // getFeedOnce().then((res) => {
-    //   setPosts(res)
-    // })
-
-  }, [])
-
+  
   return (
     <div className='containerBookmarks'>
       {testBookmarks == null ?

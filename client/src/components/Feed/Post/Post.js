@@ -7,10 +7,8 @@ import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
 import ChatBubbleRoundedIcon from '@mui/icons-material/ChatBubbleRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { indigo, yellow, deepOrange, red } from '@mui/material/colors';
+import { indigo, deepOrange } from '@mui/material/colors';
 import { useUser } from '../../../hooks/useUser';
-import { getBookmarkByPostId, getVoteByPostId, updateBookmark, updateVote } from '../../../services/posts';
-import {selectUser} from "../../../features/userSlice"
 import {useDispatch, useSelector} from "react-redux";
 import { throttle } from 'throttle-debounce';
 import { getTimeSincePost } from '../../../services/helpers';
@@ -35,17 +33,6 @@ export default function Post({post}) {
   const [modalOpen, setModalOpen] = useState(false)
 
   useEffect(() => { 
-
-    // getBookmarkByPostId(post?.id, currentUser?.uid).then((res) => {
-    //     setBookmarked(res)
-    // })
-    // getVoteByPostId(post?.id, currentUser?.uid).then((res) => {
-    //     setVote({
-    //         ...vote,
-    //         state: res
-    //     })
-    // })
-
     setBookmarked(post?.bookmarks.includes(currentUser._id))
     const userVote = post?.votes.find((v) => v.user === currentUser._id)
     setVote({
@@ -58,13 +45,6 @@ export default function Post({post}) {
     () =>
       throttle(500, (currentBookmarkStateInst) => {
         setBookmarked(!currentBookmarkStateInst);
-        // updateBookmark(post, currentUser?.uid, currentBookmarkStateInst);
-        // newUser.mutate({userId: user?.uid, userModified: {
-        //     ...user,
-        //     stats: {
-        //         bookmarksCount: user?.stats.bookmarksCount + ((currentBookmarkStateInst) ? -1 : 1)
-        //     }
-        // }})
         dispatch(bookmarkPost(post?._id))
       }),
     []
@@ -93,7 +73,6 @@ export default function Post({post}) {
                 })
             }
         }
-        // updateVote(post?.id, currentUser?.uid, currentVoteStateInst, type);
         dispatch(votePost(post?._id, type))
       }),
     []

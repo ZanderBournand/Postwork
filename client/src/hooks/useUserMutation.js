@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { useless } from '../services/user'
 import { keys} from './queryKeys'
 

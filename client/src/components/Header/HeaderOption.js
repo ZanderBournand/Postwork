@@ -1,12 +1,10 @@
 import React from 'react'
 import './HeaderOption.css'
-import {Avatar, cardClasses} from '@mui/material'
+import {Avatar} from '@mui/material'
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/userSlice';
 
 export default function HeaderOption({avatar, Icon, title, onClick, size}) {
-    // const currentUser = useSelector(selectUser);
-    const currentUser = null
+    const currentUser = useSelector((state) => state.auth)?.result
     return (
         <div onClick={onClick} className='headerOption'>
             {Icon && <Icon className="headerOption_icon" sx={{fontSize: size}}/>}

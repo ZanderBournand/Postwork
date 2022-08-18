@@ -5,18 +5,13 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import HeaderOption from './HeaderOption';
 import { useDispatch, useSelector } from 'react-redux';
-import { auth } from '../../firebase';
-import { logout, selectUser } from '../../features/userSlice';
 import {Link, useLocation} from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
-import LogoutIcon from '@mui/icons-material/Logout';
-import { changeSearch } from '../../features/searchSlice';
 import decode from 'jwt-decode'
 import { searchPosts } from '../../redux/actions/posts';
 
 export default function Header() {
     
-    // const currentUser = useSelector(selectUser);
     const currentUser = useSelector((state) => state.auth)?.result
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -24,28 +19,11 @@ export default function Header() {
 
     const [searchTerm, setSearchTerm] = useState('');
 
-    const logoutOfApp = () => {
-        dispatch(logout());
-        auth.signOut();
-    };
-
     const handleProfileNavigation = () => {
         navigate('/profile/' + currentUser?.displayName.replace(/\s/g , "-"), {state: {user: currentUser}})
     }
 
     useEffect(() => {
-        // if (searchTerm.length >0 ) {
-        //     dispatch(changeSearch({
-        //         searching: true,
-        //         searchWord: searchTerm.toLowerCase(),
-        //     }))
-        // }
-        // else {
-        //     dispatch(changeSearch({
-        //         searching: false,
-        //         searchWord: null,
-        //     }))
-        // }
         dispatch(searchPosts(searchTerm))
     }, [searchTerm])
 
@@ -77,7 +55,6 @@ export default function Header() {
                     <HeaderOption
                         avatar={true}
                         title='Me'
-                        onClick={logoutOfApp}
                     />
                 </div>
             </div>

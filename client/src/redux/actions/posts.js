@@ -1,4 +1,4 @@
-import { CREATE_POST, FETCH_ALL, UPDATE_POST, CREATE_COMMENT, UPDATE_COMMENT, DELETE_COMMENT, SEARCH_POSTS, UPDATE_BOOKMARKS} from '../constants'
+import { CREATE_POST, FETCH_ALL, UPDATE_POST, SEARCH_POSTS, UPDATE_BOOKMARKS} from '../constants'
 import * as api from '../../api'
 
 export const getPosts = () => async (dispatch) => {

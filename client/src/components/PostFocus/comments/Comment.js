@@ -10,7 +10,6 @@ import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
 import CommentForm from './CommentForm';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../../features/userSlice';
 import { indigo } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 

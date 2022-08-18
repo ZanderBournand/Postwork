@@ -1,16 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {Card, Modal, Button, IconButton, TextField, } from '@mui/material';
+import React, {useState} from 'react'
+import {Card, Modal, IconButton } from '@mui/material';
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
 import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
 import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
-import ChatBubbleRoundedIcon from '@mui/icons-material/ChatBubbleRounded';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { indigo, yellow, deepOrange, red } from '@mui/material/colors';
+import { indigo, deepOrange } from '@mui/material/colors';
 import { getTimeSincePost } from '../../services/helpers';
 import "./LargePost.css"
-import { getComments, sendComment } from '../../services/posts';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/userSlice';
 import Comments from './comments/Comments';
 import { useNavigate } from 'react-router-dom';
 

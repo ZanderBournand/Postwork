@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectUser } from '../../../features/userSlice'
-// import { getComments, sendComment, updateComment } from '../../../services/posts'
 import {Card, Modal, Button, IconButton, TextField, } from '@mui/material';
 import "./AllComments.css"
 import Comment from './Comment';

@@ -78,7 +78,6 @@ export const getPostsStats = (posts) => {
     let votes = 0;
 
     posts.forEach((post) => {
-        console.log(post)
         bookmarks += post?.bookmarks.length
         comments += post?.comments.length
         votes += post?.votesCount

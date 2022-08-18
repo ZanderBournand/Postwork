@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, Modal, Button, IconButton, TextField, } from '@mui/material';
+import { Button, TextField, } from '@mui/material';
 import "./AllComments.css"
 
 export default function CommentForm({submitLabel = 'Publish', handleSubmit, hasCancelButton = false, initialText = '', handleCancel}) {

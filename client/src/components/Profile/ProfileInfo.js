@@ -7,7 +7,6 @@ import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import { getPostsStats } from '../../services/helpers';
 import { Button, IconButton, TextField, Avatar, InputAdornment} from '@mui/material';
 import OutboundIcon from '@mui/icons-material/Outbound';
-import { useUserMutation } from '../../hooks/useUserMutation';
 import {useDispatch, useSelector} from "react-redux"
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
@@ -18,11 +17,10 @@ export default function ProfileInfo({user, posts}) {
 
   const [stats, setStats] = useState(null)
   const [fieldMode, setFieldMode] = useState(false)
-  const [aboutBody, setAboutBody] = useState((user?.about == null) ? '' : user?.about)
+  const [aboutBody, setAboutBody] = useState((user?.about === null) ? '' : user?.about)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const newUser = useUserMutation()
 
   const currentUser = useSelector((state) => state.auth)?.result
   const isCurrentUser = currentUser?.uid === user?.uid
@@ -55,7 +53,7 @@ export default function ProfileInfo({user, posts}) {
 
   return (
     <div className='profileInfoContainer'>
-        <img className='background' src="https://images.ctfassets.net/7thvzrs93dvf/wpImage18643/2f45c72db7876d2f40623a8b09a88b17/linkedin-default-background-cover-photo-1.png?w=790&h=196&q=90&fm=png"/>
+        <img className='background' alt="background" src="https://images.ctfassets.net/7thvzrs93dvf/wpImage18643/2f45c72db7876d2f40623a8b09a88b17/linkedin-default-background-cover-photo-1.png?w=790&h=196&q=90&fm=png"/>
         <div className='profilePictureContainer'>
             <Avatar src={user?.photoUrl} className='profilePicture' sx={{width: '100%', height: '100%'}}/>
         </div>
@@ -121,7 +119,7 @@ export default function ProfileInfo({user, posts}) {
                         </>
                     }
                 </div>
-                {fieldMode == false ? 
+                {fieldMode === false ? 
                     <div className='aboutContentContainer'>
                         {user?.about != null ?
                             <p className='aboutContent'>

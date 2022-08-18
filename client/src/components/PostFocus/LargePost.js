@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Card, Modal, IconButton } from '@mui/material';
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
 import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
@@ -7,26 +7,22 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { indigo, deepOrange } from '@mui/material/colors';
 import { getTimeSincePost } from '../../services/helpers';
 import "./LargePost.css"
-import { useSelector } from 'react-redux';
 import Comments from './comments/Comments';
 import { useNavigate } from 'react-router-dom';
 
 export default function LargePost({isOpen, setModalOpen, post, user, bookmarked, handleUpdateBookmark, vote, handleUpdateVote}) {
-
-  const [open, setOpen] = useState(isOpen)
-  const currentUser = useSelector((state) => state.auth)?.result
 
   const handleClose = () => setModalOpen(false);
 
   let navigate = useNavigate();
 
   const handleProfileNavigation = () => {
-    navigate('/profile/' + user?.displayName.replace(/\s/g , "-"), {state: {user: user}})
+    navigate('/profile/' + encodeURIComponent(user?.displayName), {state: {user: user}})
   }
 
   return (
     <Modal
-        open={open}
+        open={isOpen}
         onClose={handleClose}
         sx={{overflow: 'hidden', p: 1,}}
     >
@@ -34,14 +30,14 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
             <div className="postInformation">
                 <div className='informationContainer2'>
                     <div className='subInformatioContainer_2'>
-                    <IconButton size="small">
-                        <ArrowUpwardRoundedIcon sx={{fontSize: 25, color: (vote.state == 'up') ? indigo['A400'] : ''}} onClick={() => handleUpdateVote('up', vote)}/>
+                    <IconButton size="small"  onClick={() => handleUpdateVote('up', vote)}>
+                        <ArrowUpwardRoundedIcon sx={{fontSize: 25, color: (vote.state === 'up') ? indigo['A400'] : ''}}/>
                     </IconButton>
-                    <div style={{color: (vote.state == 'up') ? indigo['A400'] : ((vote.state == 'down') ? deepOrange['A700'] : ''), fontWeight: (vote.state != null) ? 'bold' : ''}}>
-                        {(vote.counter == null) ? 0 : vote.counter}
+                    <div style={{color: (vote.state === 'up') ? indigo['A400'] : ((vote.state === 'down') ? deepOrange['A700'] : ''), fontWeight: (vote.state != null) ? 'bold' : ''}}>
+                        {(vote.counter === null) ? 0 : vote.counter}
                     </div>
-                    <IconButton size="small">
-                        <ArrowDownwardRoundedIcon sx={{fontSize: 25, color: (vote.state == 'down') ? deepOrange['A700'] : ''}} onClick={() => handleUpdateVote('down', vote)}/>
+                    <IconButton size="small" onClick={() => handleUpdateVote('down', vote)}>
+                        <ArrowDownwardRoundedIcon sx={{fontSize: 25, color: (vote.state === 'down') ? deepOrange['A700'] : ''}}/>
                     </IconButton>
                     </div>
                     <div className='subInformatioContainer2'>
@@ -50,8 +46,8 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
                         </div>
                         <div className='userInfo'>
                             <div className='pictureContainer'>
-                            {user?.photoUrl != null && <input type="image" id="saveform" src={user?.photoUrl} className='profilePic' onClick={handleProfileNavigation}/>}
-                            {user?.photoUrl == null && <input type="image" id="saveform" src={'https://cdn.wallpapersafari.com/8/21/es5Bd6.jpg'} className='profilePic' onClick={handleProfileNavigation}/>}
+                            {user?.photoUrl !== null && <input type="image" alt="user pfp" id="saveform" src={user?.photoUrl} className='profilePic' onClick={handleProfileNavigation}/>}
+                            {user?.photoUrl === null && <input type="image" alt="default pfp" id="saveform" src={'https://cdn.wallpapersafari.com/8/21/es5Bd6.jpg'} className='profilePic' onClick={handleProfileNavigation}/>}
                             </div>
                             <div className='extraInfo'>
                                 <button className="astext2" onClick={handleProfileNavigation}>
@@ -103,7 +99,6 @@ const style = {
     top: '45%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '50%',
     bgcolor: 'white',
     boxShadow: 24,
     p: 4,

@@ -79,7 +79,7 @@ export default function Post({post}) {
   );
 
   const handleProfileNavigation = () => {
-    navigate('/profile/' + user?.displayName.replace(/\s/g , "-"), {state: {user: user}})
+    navigate('/profile/' + encodeURIComponent(user?.displayName), {state: {user: user}})
   }
 
   return (
@@ -88,14 +88,14 @@ export default function Post({post}) {
         <div className='container'>
             <div className='informationContainer'>
                 <div className='subInformatioContainer'>
-                    <IconButton size="small">
-                        <ArrowUpwardRoundedIcon sx={{fontSize: 25, color: (vote.state == 'up') ? indigo['A400'] : ''}} onClick={() => handleUpdateVote('up', vote)}/>
+                    <IconButton size="small" onClick={() => handleUpdateVote('up', vote)}>
+                        <ArrowUpwardRoundedIcon sx={{fontSize: 25, color: (vote.state == 'up') ? indigo['A400'] : ''}}/>
                     </IconButton>
                     <div style={{color: (vote.state == 'up') ? indigo['A400'] : ((vote.state == 'down') ? deepOrange['A700'] : ''), fontWeight: (vote.state != null) ? 'bold' : ''}}>
                         {(vote.counter == null) ? 0 : vote.counter}
                     </div>
-                    <IconButton size="small">
-                        <ArrowDownwardRoundedIcon sx={{fontSize: 25, color: (vote.state == 'down') ? deepOrange['A700'] : ''}} onClick={() => handleUpdateVote('down', vote)}/>
+                    <IconButton size="small" onClick={() => handleUpdateVote('down', vote)}>
+                        <ArrowDownwardRoundedIcon sx={{fontSize: 25, color: (vote.state == 'down') ? deepOrange['A700'] : ''}}/>
                     </IconButton>
                 </div>
                 <div className='subInformatioContainer2'>

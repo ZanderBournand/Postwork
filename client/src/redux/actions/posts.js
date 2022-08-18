@@ -72,7 +72,6 @@ export const deleteComment = (id, commentId) => async (dispatch) => {
 
 export const searchPosts = (searchTerm) => async (dispatch) => {
     try {
-        console.log('dispatching with: ', searchTerm)
         dispatch({ type: SEARCH_POSTS, payload: searchTerm })
     } catch (error) {
         console.log(error)

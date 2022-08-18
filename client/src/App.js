@@ -9,7 +9,6 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom
 import Bookmarks from "./pages/bookmarks";
 import Profile from "./pages/profile";
 import { LOGIN } from "./redux/constants";
-import { getPosts } from "./redux/actions/posts";
 
 function App() {
 
@@ -21,14 +20,14 @@ function App() {
     const cachedUser = JSON.parse(localStorage.getItem('profile'))
     if (cachedUser?.result != null) {
       dispatch({ type: LOGIN, data: cachedUser });
-      dispatch(getPosts())
     }
     setLoaded(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded])
 
   return (
     <Router>
-    <div classsName="app">
+    <div>
       {!loaded ? 
         <div className="appLoader">
           <BeatLoader size={20} color='gray' loading={loaded}/>

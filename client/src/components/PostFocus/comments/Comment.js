@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 import { useUser } from '../../../hooks/useUser'
 import { getTimeSincePost } from '../../../services/helpers'
-import {Card, Button, IconButton, makeStyles} from '@mui/material'
-import ChatBubbleRoundedIcon from '@mui/icons-material/ChatBubbleRounded';
+import {Button} from '@mui/material'
 import ReplyRoundedIcon from '@mui/icons-material/ReplyRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -31,7 +30,7 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
   let navigate = useNavigate()
 
   const handleProfileNavigation = () => {
-    navigate('/profile/' + user?.displayName.replace(/\s/g , "-"), {state: {user: user}})
+    navigate('/profile/' + encodeURIComponent(user?.displayName), {state: {user: user}})
   }
 
   return (

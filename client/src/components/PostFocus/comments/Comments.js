@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {Card, Modal, Button, IconButton, TextField, } from '@mui/material';
 import "./AllComments.css"
 import Comment from './Comment';
 import CommentForm from './CommentForm';
@@ -30,17 +29,8 @@ export default function Comments({post}) {
         return timestamp1 - timestamp2
     })
   }
-  // useEffect(() => {
-  //   getComments(post?.id).then((res) => {
-  //       setComments(res)
-  //   })
-  // }, [])
 
   const addComment = (body, parentId) => {
-    // sendComment(post, parentId, body, currentUser?.uid).then((res) => {
-    //     setComments([res, ...comments])
-    //     setActiveComment(null)
-    // })
     setActiveComment(null)
     dispatch(createComment(post._id, { comment: body, parentId: parentId})).then((res) => {
       setCommentsCount(commentsCount + 1)
@@ -66,7 +56,6 @@ export default function Comments({post}) {
     )
     setComments(updatedComments)
     setCommentsCount(commentsCount - 1)
-    // deleteComment(post?.id, commentId)
     dispatch(deleteComment(post._id, commentId))
   }
 

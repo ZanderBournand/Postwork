@@ -11,19 +11,6 @@ export default function BookmarkFeed() {
   const [posts, setPosts] = useState(null)
 
   const testBookmarks = useSelector((state) => state.posts.bookmarkedPosts)
-
-  console.log(testBookmarks)
-
-  const bookmarkedPosts = posts?.filter(
-    (post) => {
-      if(bookmarks?.includes(post?.id)){
-        return true
-      }
-      else{
-        return false
-      }
-    }
-  )
   
   return (
     <div className='containerBookmarks'>
@@ -35,7 +22,7 @@ export default function BookmarkFeed() {
         testBookmarks.length > 0 ?
         <Grid style={{}} className='grid' container alignItems="stretch" spacing={3}>
           {testBookmarks.map((post) => (
-            <Grid key={post.id} item xs={12} sm={12} md={6} lg={6} xl={4}>
+            <Grid key={post._id} item xs={12} sm={12} md={6} lg={6} xl={4}>
               <Post post={post}/>
             </Grid>
           ))}

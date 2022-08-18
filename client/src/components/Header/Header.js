@@ -20,7 +20,7 @@ export default function Header() {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleProfileNavigation = () => {
-        navigate('/profile/' + currentUser?.displayName.replace(/\s/g , "-"), {state: {user: currentUser}})
+        navigate('/profile/' + encodeURIComponent(currentUser?.displayName), {state: {user: currentUser}})
     }
 
     useEffect(() => {

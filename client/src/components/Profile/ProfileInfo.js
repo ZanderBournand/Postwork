@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../redux/actions/auth';
 
 
-export default function ProfileInfo({user, posts}) {
+export default function ProfileInfo({user, posts, loading}) {
 
   const [stats, setStats] = useState(null)
   const [fieldMode, setFieldMode] = useState(false)
@@ -26,11 +26,11 @@ export default function ProfileInfo({user, posts}) {
   const isCurrentUser = currentUser?.uid === user?.uid
 
   useEffect(() => {
-    if (posts != null) {
+    if (loading == false) {
         setStats([...getPostsStats(posts)])
     }
-  }, [posts])
-
+  }, [loading])
+  
   const handleInputChange = ({target})=>{
     const {value} = target;
     setAboutBody(value)

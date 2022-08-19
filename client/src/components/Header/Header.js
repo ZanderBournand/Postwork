@@ -79,8 +79,8 @@ export default function Header() {
                     <h2>International Gator Job Board</h2>
                 </div>
                 <div className='header_right'>
-                    <Link to="/"><HeaderOption Icon={HomeRoundedIcon} title='Home' size={40}/></Link>
-                    <Link to="/bookmarks"><HeaderOption Icon={BookmarksIcon} title='Bookmarks' size={35}/></Link>
+                    <Link to="/" style={{ textDecoration: 'none' }}><HeaderOption Icon={HomeRoundedIcon} title='Home' size={40}/></Link>
+                    <Link to="/bookmarks" style={{ textDecoration: 'none' }}><HeaderOption Icon={BookmarksIcon} title='Bookmarks' size={35}/></Link>
                     <HeaderOption
                         avatar={true}
                         title='Me'

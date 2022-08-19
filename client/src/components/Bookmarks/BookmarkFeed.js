@@ -10,7 +10,7 @@ export default function BookmarkFeed() {
   const [bookmarks, setBookmarks] = useState(null)
   const [posts, setPosts] = useState(null)
 
-  const testBookmarks = useSelector((state) => state.posts.bookmarkedPosts)
+  const testBookmarks = useSelector((state) => state.posts.posts)
   
   return (
     <div className='containerBookmarks'>

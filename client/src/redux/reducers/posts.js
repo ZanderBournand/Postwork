@@ -1,7 +1,7 @@
 import { getHotValue } from "../../services/helpers";
-import { CREATE_POST, FETCH_ALL, UPDATE_POST, SORT_POSTS_HOT, SORT_POSTS_NEW, SEARCH_POSTS, UPDATE_BOOKMARKS } from "../constants";
+import { CREATE_POST, FETCH_ALL, UPDATE_POST, SEARCH_POSTS, UPDATE_BOOKMARKS, CHANGE_POSTS_TYPE, POSTS_LOADING } from "../constants";
 
-const postsReducer = (state = {type: 'hot', posts: [], hotPosts: [], newPosts: [], searchTerm: '', bookmarkedPosts: []}, action) => {
+const postsReducer = (state = {type: 'hot', loading: false, posts: [], hotPosts: [], newPosts: [], searchTerm: '', bookmarkedPosts: [], profilePosts: []}, action) => {
 
     const currentUserId = JSON.parse(localStorage.getItem('profile'))?.result?._id
 
@@ -22,21 +22,48 @@ const postsReducer = (state = {type: 'hot', posts: [], hotPosts: [], newPosts: [
                 posts: state.posts.map((post) => post._id === action.payload._id ? action.payload : post),
                 hotPosts:  state.hotPosts.map((post) => post._id === action.payload._id ? action.payload : post),
                 newPosts:  state.newPosts.map((post) => post._id === action.payload._id ? action.payload : post),
+                bookmarkedPosts: state.bookmarkedPosts.map((post) => post._id === action.payload._id ? action.payload : post)
             }
-        case SORT_POSTS_HOT:
-            return { ...state, type: 'hot', posts: state.hotPosts}
-        case SORT_POSTS_NEW:
-            return { ...state, type: 'new', posts: state.newPosts }
+        case CHANGE_POSTS_TYPE:
+            if (action.mode === 'hot') {
+                return { ...state, type: 'hot', posts: state.hotPosts}
+            }
+            else if (action.mode === 'new') {
+                return { ...state, type: 'new', posts: state.newPosts }
+            }
+            else if (action.mode === 'bookmarks') {
+                return { ...state, type: 'bookmarks', posts: state.bookmarkedPosts }
+            }
+            else if (action.mode === 'profile') {
+                return { ...state, type: 'profile', profilePosts: action.payload, posts: action.payload}
+            }
         case SEARCH_POSTS:
             if (action?.payload === '' || action?.payload === null) {
-                return { ...state, posts: (state.type === 'hot') ? state.hotPosts : state.newPosts }
+                if (state.type === 'hot') {
+                    return { ...state, posts: state.hotPosts }
+                }
+                else if (state.type === 'new') {
+                    return { ...state, posts: state.newPosts }
+                }
+                else if (state.type === 'bookmarks') {
+                    return { ...state, posts: state.bookmarkedPosts } 
+                }
+                else if (state.type === 'profile') {
+                    return { ...state, posts: state.profilePosts } 
+                }
             }
             else {
                 if (state.type === 'hot') {
                     return { ...state, posts: state.hotPosts.filter((post) => post?.title.toLowerCase().includes(action?.payload) || post?.tag.toLowerCase().includes(action?.payload))}
                 }
-                else {
+                else if (state.type === 'new') {
                     return { ...state, posts: state.newPosts.filter((post) => post?.title.toLowerCase().includes(action?.payload) || post?.tag.toLowerCase().includes(action?.payload))}
+                }
+                else if (state.type === 'bookmarks') {
+                    return { ...state, posts: state.bookmarkedPosts.filter((post) => post?.title.toLowerCase().includes(action?.payload) || post?.tag.toLowerCase().includes(action?.payload))}
+                }
+                else if (state.type === 'profile') {
+                    return { ...state, posts: state.profilePosts.filter((post) => post?.title.toLowerCase().includes(action?.payload) || post?.tag.toLowerCase().includes(action?.payload))}
                 }
             }
         case UPDATE_BOOKMARKS:
@@ -46,6 +73,8 @@ const postsReducer = (state = {type: 'hot', posts: [], hotPosts: [], newPosts: [
             else {
                 return { ...state, bookmarkedPosts: state.bookmarkedPosts.filter((post) => post?._id !== action?.payload?._id )}
             }
+        case POSTS_LOADING:
+            return { ...state, loading: action.loading }
         default:
             return state
     }

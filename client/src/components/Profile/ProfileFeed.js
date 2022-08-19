@@ -3,11 +3,13 @@ import Grid from '@mui/material/Grid';
 import Post from '../Feed/Post/Post';
 import ClipLoader from "react-spinners/ClipLoader";
 import "./ProfileFeed.css"
+import { useSelector } from 'react-redux';
 
-export default function ProfileFeed({posts}) {
+export default function ProfileFeed({posts, loading}) {
+
   return (
     <div className='profileFeedContainer'>
-      {posts == null ?
+      {loading ?
         <div className='loaderContainer'>
           <ClipLoader size={20} color='gray' loading={true}/>
         </div>

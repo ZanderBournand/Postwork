@@ -9,7 +9,7 @@ import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded';
 import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import { indigo } from '@mui/material/colors';
 import { createPost } from "../../redux/actions/posts";
-import { SORT_POSTS_HOT, SORT_POSTS_NEW } from "../../redux/constants";
+import { CHANGE_POSTS_TYPE } from "../../redux/constants";
 
 export default function Sidebar() {
 
@@ -46,10 +46,10 @@ export default function Sidebar() {
 
     const handlePostsTypeChange = (type) => {
         if (type === "hot") {
-            dispatch({ type: SORT_POSTS_HOT })
+            dispatch({ type: CHANGE_POSTS_TYPE, mode: type })
         }
         else if (type === "new") {
-            dispatch({ type: SORT_POSTS_NEW })
+            dispatch({ type: CHANGE_POSTS_TYPE, mode: type })
         }
     }
 

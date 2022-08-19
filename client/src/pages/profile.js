@@ -1,30 +1,52 @@
 import React, {useEffect, useState} from 'react'
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
 import ProfileFeed from '../components/Profile/ProfileFeed';
 import ProfileInfo from '../components/Profile/ProfileInfo';
+import { CHANGE_POSTS_TYPE, POSTS_LOADING } from '../redux/constants';
 import { getPostsByUser } from '../services/posts';
+import { getUserProfile } from '../services/user';
 
 export default function Profile(){
 
     const {state} = useLocation()
-    const {user} = state
     const currentUser = useSelector((state) => state.auth)?.result
+    const profilePosts = useSelector((state) => state.posts.posts)
+    const { username } = useParams()
+    const dispatch = useDispatch()
 
-    const [userPosts, setUserPosts] = useState(null)
+    const loading = useSelector((state) => state.posts.loading)
+    const mode = useSelector((state) => state.posts.type)
+    const notLoading = loading === false && mode === 'profile'
+
+    const [userProfile, setUserProfile] = useState(null)
 
     useEffect(() => {
-        const getUserPosts = async () => {
-            const posts = await getPostsByUser(user?._id)
-            setUserPosts(posts)
+        const getInfo = async () => {
+            let user = null
+            let posts = null
+            dispatch({ type: POSTS_LOADING, loading: true })
+            if (state != null) {
+                setUserProfile(state?.user)
+                posts = await getPostsByUser(state?.user?._id)
+                dispatch({ type: CHANGE_POSTS_TYPE, mode: 'profile', payload: posts})
+                dispatch({ type: POSTS_LOADING, loading: false })
+            }
+            else {
+                user = await getUserProfile(username)
+                setUserProfile(user[0])
+                posts = await getPostsByUser(user[0]?._id)
+            }
+            dispatch({ type: CHANGE_POSTS_TYPE, mode: 'profile', payload: posts})
+            dispatch({ type: POSTS_LOADING, loading: false })
         }
-        getUserPosts()
+        getInfo()
     }, [])
 
     return(
         <div className="profile_body">
-            <ProfileInfo user={(user?._id === currentUser?._id) ? currentUser : user} posts={userPosts}/>
-            <ProfileFeed posts={userPosts}/>
+            <ProfileInfo user={(userProfile?._id === currentUser?._id) ? currentUser : userProfile} posts={profilePosts} loading={!notLoading}/>
+            <ProfileFeed posts={profilePosts} loading={!notLoading}/>
         </div>
     )
 }

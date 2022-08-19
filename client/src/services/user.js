@@ -17,3 +17,11 @@ export const getUserInfo = async (userId) => {
     return data
 
 }
+
+export const getUserProfile = async (userName) => {
+
+    const{ data } = await api.fetchUserProfile(userName)
+    return data
+
+}
+

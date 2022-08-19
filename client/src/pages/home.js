@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Feed from '../components/Feed/Feed';
 import Sidebar from "../components/Sidebar/Sidebar";
 import { getPosts } from '../redux/actions/posts';
+import { CHANGE_POSTS_TYPE } from '../redux/constants';
 
 export default function Home(){
 
@@ -10,6 +11,7 @@ export default function Home(){
 
     useEffect(() => {
         dispatch(getPosts())
+        dispatch({ type: CHANGE_POSTS_TYPE, mode: 'hot' })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

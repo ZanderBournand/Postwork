@@ -41,7 +41,8 @@ export default function Profile(){
             dispatch({ type: POSTS_LOADING, loading: false })
         }
         getInfo()
-    }, [])
+        window.scrollTo(0, 0)
+    }, [username])
 
     return(
         <div className="profile_body">

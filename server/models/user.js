@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-    displayName: { type: String, required:  true },
+    firstName: { type: String, required:  true },
+    lastName: { type: String, required:  true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    recruiter: { type: Boolean, required: true },
+    displayName: { type: String, required:  false },
+    recruiter: { type: Boolean, required: false },
     photoUrl: { type: String, required: false },
     about: { type: String, required: false },
-    id: { type: String },
   });
   
   export default mongoose.model("User", userSchema);

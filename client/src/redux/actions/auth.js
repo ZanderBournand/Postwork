@@ -6,8 +6,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
       const { data } = await api.signIn(formData);
   
       dispatch({ type: LOGIN, data });
-  
-      navigate('/')
+
     } catch (error) {
       console.log(error);
     }
@@ -18,8 +17,7 @@ export const signup = (formData, navigate) => async (dispatch) => {
       const { data } = await api.signUp(formData);
   
       dispatch({ type: LOGIN, data });
-  
-      navigate('/')
+
     } catch (error) {
       console.log(error);
     }

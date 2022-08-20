@@ -3,7 +3,7 @@ import { LOGIN, LOGOUT, UPDATE_USER } from '../constants'
 const authReducer = (state = null, action) => {
     switch(action.type) {
         case LOGIN:
-            if (localStorage.getItem('profile')?.result == null) {
+            if (localStorage.getItem('profile')?.result == null && action?.data?.result.displayName != null) {
                 localStorage.setItem('profile', JSON.stringify({ ...action?.data }));   
             }
             return action?.data

@@ -41,27 +41,7 @@ export default function Header() {
 
     }, [location])
 
-    if(!currentUser){
-        return (
-            <div className='header'>
-                <div className='header_left'>
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/en/thumb/1/14/Florida_Gators_gator_logo.svg/1200px-Florida_Gators_gator_logo.svg.png"
-                        alt=""/>
-                    <h2>International Gator Job Board</h2>
-                </div>
-
-                <div className='header_right'>
-                    <HeaderOption
-                        avatar={true}
-                        title='Me'
-                    />
-                </div>
-            </div>
-        )
-
-    }
-    else {
+    if(currentUser && currentUser?.displayName != null){
         return (
             <div className='header'>
                 <div className='header_left'>
@@ -86,6 +66,18 @@ export default function Header() {
                         title='Me'
                         onClick={handleProfileNavigation}
                     />
+                </div>
+            </div>
+        )
+    }
+    else {
+        return (
+            <div className='header'>
+                <div className='header_left'>
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/en/thumb/1/14/Florida_Gators_gator_logo.svg/1200px-Florida_Gators_gator_logo.svg.png"
+                        alt=""/>
+                    <h2>International Gator Job Board</h2>
                 </div>
             </div>
         )

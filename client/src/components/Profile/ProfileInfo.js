@@ -23,7 +23,7 @@ export default function ProfileInfo({user, posts, loading}) {
   const navigate = useNavigate()
 
   const currentUser = useSelector((state) => state.auth)?.result
-  const isCurrentUser = currentUser?.uid === user?.uid
+  const isCurrentUser = currentUser?._id=== user?._id
 
   useEffect(() => {
     if (loading == false) {

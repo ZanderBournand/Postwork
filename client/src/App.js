@@ -36,9 +36,9 @@ function App() {
         <>
           <Header/>
           <Routes>
-            <Route path="/" element={(!currentUser) ? <Navigate to="/auth" replace={true}/> : <Navigate to="/feed" replace={true}/>}/>
+            <Route path="/" element={(currentUser && currentUser?.displayName != null) ? <Navigate to="/feed" replace={true}/> : <Navigate to="/auth" replace={true}/>}/>
             <Route path="/feed" element={<Home />}/>
-            <Route path="/auth" element={(!currentUser) ? <Login /> : <Navigate to="/" replace={true}/>}/>
+            <Route path="/auth" element={(currentUser && currentUser?.displayName != null) ? <Navigate to="/" replace={true}/> : <Login />}/>
             <Route path="/bookmarks" element={<Bookmarks/>}/>
             <Route path="/profile/:username" element={<Profile/>}/>
           </Routes>

@@ -56,3 +56,81 @@
     font-size: 18px;
     font-weight: 400;
 }
+.submitButton{
+    margin-top: 20px;
+}
+.changeModebutton{
+    color: #0177b7;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 15px;
+}
+.topContainer{
+    display: flex;
+    margin-top: 5px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 0.1
+}
+.modalTitle{
+    font-size: 24px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.stepsContainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    flex: 0.9
+}
+.stepContainer1{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.stepContainer2{
+    display: flex;
+    flex-direction: column;
+}
+.stepHalf{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.step{
+    display: flex;
+    flex-direction: column;
+}
+.stepText{
+    font-size: 18px;
+    font-weight: 400;
+}
+.profilePictureContainer2{
+    margin-top: 15px;
+    height: 100px;
+    width: 100px;
+    border-radius: 60px;
+    border: 3px solid rgb(235, 235, 235);
+    margin-left: 8%;
+    position: relative;
+}
+.editButtonContainer2{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 65%;
+    left: 70%;
+}
+.editButton2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #186df5;
+}

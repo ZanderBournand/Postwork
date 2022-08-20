@@ -12,7 +12,7 @@ import { LOGIN } from "./redux/constants";
 
 function App() {
 
-  const currentUser = useSelector((state) => state.auth);
+  const currentUser = useSelector((state) => state.auth)?.result;
   const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false)
 
@@ -36,9 +36,9 @@ function App() {
         <>
           <Header/>
           <Routes>
-            <Route path="/" element={(currentUser && currentUser?.displayName != null) ? <Navigate to="/feed" replace={true}/> : <Navigate to="/auth" replace={true}/>}/>
+            <Route path="/" element={(currentUser && currentUser?.photoUrl != null) ? <Navigate to="/feed" replace={true}/> : <Navigate to="/auth" replace={true}/>}/>
             <Route path="/feed" element={<Home />}/>
-            <Route path="/auth" element={(currentUser && currentUser?.displayName != null) ? <Navigate to="/" replace={true}/> : <Login />}/>
+            <Route path="/auth" element={(currentUser && currentUser?.photoUrl != null) ? <Navigate to="/" replace={true}/> : <Login />}/>
             <Route path="/bookmarks" element={<Bookmarks/>}/>
             <Route path="/profile/:username" element={<Profile/>}/>
           </Routes>

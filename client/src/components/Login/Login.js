@@ -27,8 +27,11 @@ const Login = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (currentUser && currentUser?.displayName === null) {
+        if (currentUser && currentUser?.photoUrl === null) {
             setModalOpen(true)
+        }
+        else if (currentUser && currentUser?.photoUrl !== null) {
+            setModalOpen(false)
         }
     }, [currentUser])
         
@@ -56,7 +59,7 @@ const Login = () => {
 
     const switchMode = () => {
         setIsSignUp((prevValue) => !prevValue)
-        handleShowPassword(false)
+        setShowPassword(false)
       }
     
     return (

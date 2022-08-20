@@ -17,7 +17,7 @@ export default function LargePost({isOpen, setModalOpen, post, user, bookmarked,
   let navigate = useNavigate();
 
   const handleProfileNavigation = () => {
-    navigate('/profile/' + encodeURIComponent(user?.displayName), {state: {user: user}})
+    navigate('/profile/' + user?.urlId, {state: {user: user}})
   }
 
   return (

@@ -15,7 +15,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
 export const signup = (formData, navigate) => async (dispatch) => {
     try {
       const { data } = await api.signUp(formData);
-  
+
       dispatch({ type: LOGIN, data });
 
     } catch (error) {
@@ -26,6 +26,16 @@ export const signup = (formData, navigate) => async (dispatch) => {
 export const updateUser = (id, userChanges) => async (dispatch) => {
   try {
     const { data } = await api.updateUser(id, userChanges);
+    console.log(data)
+    dispatch({ type: UPDATE_USER, data})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updateUserAbout = (id, userChanges) => async (dispatch) => {
+  try {
+    const { data } = await api.updateUserAbout(id, userChanges);
     dispatch({ type: UPDATE_USER, data})
   } catch (error) {
     console.log(error);

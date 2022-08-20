@@ -49,7 +49,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-bottom: 10px;
+    padding-top: 30px;
 }
 .checkboxText{
     padding-bottom: 5px;
@@ -95,15 +95,26 @@
 .stepContainer2{
     display: flex;
     flex-direction: column;
+    margin-top:7%;
+    padding-left: 5px;
+    padding-right: 5px;
 }
-.stepHalf{
+.stepHalf1{
     display: flex;
     flex-direction: column;
     width: 50%;
+    padding-right: 10%;
+}
+.stepHalf2{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-right: 10%;
 }
 .step{
     display: flex;
     flex-direction: column;
+    margin-top: 0%;
 }
 .stepText{
     font-size: 18px;
@@ -111,11 +122,11 @@
 }
 .profilePictureContainer2{
     margin-top: 15px;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
     border-radius: 60px;
     border: 3px solid rgb(235, 235, 235);
-    margin-left: 8%;
+    margin-left: 15%;
     position: relative;
 }
 .editButtonContainer2{
@@ -133,4 +144,44 @@
     height: 35px;
     border-radius: 30px;
     background-color: #186df5;
+}
+.nameInputContainer{
+    margin-top: 40px;
+    margin-left: 20px;
+}
+.aboutYoucontainer{
+    margin-top: 3%;
+}
+.bottomContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex: 0.1;
+}
+.submitButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    padding-right: 2%;
+}
+.autoCompleteContainer{
+    margin-top: 15%;
+    display: flex;
+    width: 115%;
+    flex-direction: column;
+    position: relative;
+}
+.suggestionsContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 100%;
+    z-index: 999;
+    border-radius: 10px;
+}
+.individualSuggestion{
+    border: 0.5px solid rgb(206, 206, 206);
+}
+.cancelButton{
+    border: none;
+    background-color: #F1F1F1;
 }

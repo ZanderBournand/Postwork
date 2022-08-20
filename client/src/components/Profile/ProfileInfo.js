@@ -10,14 +10,17 @@ import OutboundIcon from '@mui/icons-material/Outbound';
 import {useDispatch, useSelector} from "react-redux"
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
-import { updateUser } from '../../redux/actions/auth';
+import { updateUserAbout } from '../../redux/actions/auth';
 
 
 export default function ProfileInfo({user, posts, loading}) {
 
   const [stats, setStats] = useState(null)
   const [fieldMode, setFieldMode] = useState(false)
-  const [aboutBody, setAboutBody] = useState((user?.about === null) ? '' : user?.about)
+  const [aboutBody, setAboutBody] = useState(user?.about)
+
+  console.log("user stuff:", user?.about)
+  console.log(aboutBody)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -43,7 +46,7 @@ export default function ProfileInfo({user, posts, loading}) {
   const handleAboutChange = () => {
     setFieldMode(false)
     user.about = aboutBody
-    dispatch(updateUser(user?._id, { about: aboutBody}))
+    dispatch(updateUserAbout(user?._id, { about: aboutBody}))
   }
 
    const logoutOfApp = () => {

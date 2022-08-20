@@ -79,7 +79,7 @@ export default function Post({post}) {
   );
 
   const handleProfileNavigation = () => {
-    navigate('/profile/' + encodeURIComponent(user?.displayName), {state: {user: user}})
+    navigate('/profile/' + user?.urlId, {state: {user: user}})
   }
 
   return (

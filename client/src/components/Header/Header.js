@@ -20,7 +20,7 @@ export default function Header() {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleProfileNavigation = () => {
-        navigate('/profile/' + encodeURIComponent(currentUser?.displayName), {state: {user: currentUser}})
+        navigate('/profile/' + currentUser?.urlId, {state: {user: currentUser}})
     }
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export default function Header() {
 
     }, [location])
 
-    if(currentUser && currentUser?.displayName != null){
+    if(currentUser && currentUser?.photoUrl != null){
         return (
             <div className='header'>
                 <div className='header_left'>

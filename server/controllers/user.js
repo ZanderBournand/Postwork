@@ -42,7 +42,11 @@ export const signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12)
 
-        const result = await User.create({ email, password: hashedPassword, firstName, lastName, about: null, displayName: null, recruiter: false });
+        const numberExistingNames = await User.countDocuments({ $and: [{ firstName }, { lastName }] })
+
+        const urlId = (numberExistingNames > 0) ? firstName.toLowerCase() + '-' + lastName.toLowerCase() + '-' + numberExistingNames : firstName.toLowerCase() + '-' + lastName.toLowerCase()
+
+        const result = await User.create({ email, password: hashedPassword, firstName, lastName, displayName: `${firstName} ${lastName}`,  urlId: urlId, photoUrl: null });
 
         const token = jwt.sign({ email: result.email, id: result._id}, 'test', { expiresIn: "10h"})
 
@@ -70,11 +74,36 @@ export const getUser = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
     
-    const { name } = req.params;
+    const { id } = req.params;
 
     try {
-        const user = await User.find({ displayName: name})
+        const user = await User.find({ urlId: id})
         res.status(200).json(user)
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+
+}
+
+export const updateUser = async (req, res) => {
+
+    const { id } = req.params;
+    const { photoUrl, location, about, recruiter } = req.body
+
+    console.log(id)
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No user with that id');
+
+    console.log('after')
+
+    try {
+        const user = await User.findById(id)
+        user.location = location
+        user.photoUrl = photoUrl
+        user.about = about
+        user.recruiter = recruiter
+        const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
+        res.status(200).json(updatedUser)
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -92,7 +121,7 @@ export const updateUserAbout = async (req, res) => {
         const user = await User.findById(id)
         user.about = changes.about
         const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
-        res.status(200).json(user)
+        res.status(200).json(updatedUser)
     } catch (error) {
         res.status(404).json({ message: error.message });
     }

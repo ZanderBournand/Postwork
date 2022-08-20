@@ -30,7 +30,7 @@ export default function Comment({comment, replies, deleteComment, addComment, ac
   let navigate = useNavigate()
 
   const handleProfileNavigation = () => {
-    navigate('/profile/' + encodeURIComponent(user?.displayName), {state: {user: user}})
+    navigate('/profile/' + user?.urlId, {state: {user: user}})
   }
 
   return (

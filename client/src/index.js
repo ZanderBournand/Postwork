@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import reducers from '../src/redux/reducers'
@@ -23,7 +23,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <GoogleOAuthProvider clientId="***REMOVED***">
+            <App />
+          </GoogleOAuthProvider>
         </QueryClientProvider>
     </Provider>
   </React.StrictMode>

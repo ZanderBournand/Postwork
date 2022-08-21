@@ -52,10 +52,10 @@
 .userDetails2{
     margin-left: 8%;
     margin-top: 5px;
-    width: 40%;
+    width: 60%;
 }
 .userName2{
-    font-size: 26px;
+    font-size: 22px;
     font-weight: bold;
 }
 .userEmail2{
@@ -90,11 +90,13 @@
     display: flex;
     width: 60%;
     justify-content: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .StatsContainer{
     display: flex;
     flex-direction: column;
-    padding-top: 3px;
 }
 .statsTitle{
     font-size: 20px;
@@ -166,7 +168,7 @@
     font-weight: 500;
 }
 .aboutTitle{
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
 }
 .aboutContentContainer{
@@ -212,4 +214,12 @@
 .logoutText{
     padding-left: 3px;
     padding-top: 2px;
+}
+.locationContainer{
+    display: flex;
+    flex-direction: row;
+    padding-right: 25px;
+}
+.location{
+    padding-left: 5px;
 }

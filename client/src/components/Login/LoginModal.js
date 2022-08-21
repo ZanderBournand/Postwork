@@ -35,7 +35,6 @@ const LoginModal = ({ isOpen, setModalOpen, }) => {
 
   const handleFileRead = async (event) => {
     const file = event.target.files[0]
-    console.log("called with: ", file)
     const base64 = await convertBase64(file)
     setUserInfo({ ...userInfo, photoUrl: base64 })
   }

@@ -3,6 +3,7 @@ import "./ProfileInfo.css"
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import { getPostsStats } from '../../services/helpers';
 import { Button, IconButton, TextField, Avatar, InputAdornment} from '@mui/material';
@@ -18,9 +19,6 @@ export default function ProfileInfo({user, posts, loading}) {
   const [stats, setStats] = useState(null)
   const [fieldMode, setFieldMode] = useState(false)
   const [aboutBody, setAboutBody] = useState(user?.about)
-
-  console.log("user stuff:", user?.about)
-  console.log(aboutBody)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -87,6 +85,10 @@ export default function ProfileInfo({user, posts, loading}) {
                     </div>
                 </div>
                 <div className='userStats'>
+                    <div className='locationContainer'>
+                        <LocationOnIcon sx={{color: '#5C5C5C'}}/>
+                        <div className='location'>{user?.location}</div>
+                    </div>
                     <div className='StatsContainer'>
                         {stats?.length > 0 && <div className='statsContentContainer'>
                             <div className='statContainer'>

@@ -22,6 +22,7 @@ export const updateComment = (postId, commentId, comment) => API.patch(`/posts/$
 
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
+export const signInGoogle = (formData) => API.post('/users/signin/google', formData)
 export const fetchUser = (userId) => API.get(`/users/${userId}`)
 export const fetchUserProfile = (urlId) => API.get(`/users/profile/${urlId}`)
 export const updateUser = (userId, userUpdates) => API.patch(`/users/update/${userId}`, userUpdates)

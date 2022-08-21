@@ -112,7 +112,7 @@ export default function Post({post}) {
                                 <button className="astext2" onClick={handleProfileNavigation}>{user?.displayName}</button>
                                 {user?.recruiter &&
                                 <div className='recruiterContainer'>
-                                    <StarRoundedIcon sx={{fontSize: 24, color: '#FFBC00'}}/>
+                                    <StarRoundedIcon sx={{fontSize: 20, color: '#FFBC00'}}/>
                                     <div className='recruiterText'>
                                         Recruiter
                                     </div>

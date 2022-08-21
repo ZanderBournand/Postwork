@@ -1,7 +1,7 @@
 import { LOGIN, UPDATE_USER }  from '../constants/index'
 import * as api from '../../api'
 
-export const signin = (formData, navigate) => async (dispatch) => {
+export const signin = (formData) => async (dispatch) => {
     try {
       const { data } = await api.signIn(formData);
   
@@ -11,8 +11,18 @@ export const signin = (formData, navigate) => async (dispatch) => {
       console.log(error);
     }
 };
+
+export const signinGoogle = (formData) => async (dispatch) => { 
+  try {
+    const { data } = await api.signInGoogle(formData)
+    
+    dispatch({ type: LOGIN, data });
+  } catch (error) {
+    console.log(error);
+  }
+}
   
-export const signup = (formData, navigate) => async (dispatch) => {
+export const signup = (formData) => async (dispatch) => {
     try {
       const { data } = await api.signUp(formData);
 
@@ -26,7 +36,6 @@ export const signup = (formData, navigate) => async (dispatch) => {
 export const updateUser = (id, userChanges) => async (dispatch) => {
   try {
     const { data } = await api.updateUser(id, userChanges);
-    console.log(data)
     dispatch({ type: UPDATE_USER, data})
   } catch (error) {
     console.log(error);

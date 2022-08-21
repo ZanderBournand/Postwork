@@ -27,6 +27,39 @@ export const signin = async (req, res) => {
 
 }  
 
+export const signinGoogle = async (req, res) => {
+
+    const { email, given_name, family_name } = req.body
+
+    try {
+        
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+
+            const token = jwt.sign({ email: existingUser.email, id: existingUser._id}, 'test', { expiresIn: "10h"})
+
+            res.status(200).json({ result: existingUser, token })
+
+            return
+
+        }
+
+        const numberExistingNames = await User.countDocuments({ $and: [{ firstName: given_name }, { lastName: family_name }] })
+
+        const urlId = (numberExistingNames > 0) ? given_name.toLowerCase() + '-' + family_name.toLowerCase() + '-' + numberExistingNames : given_name.toLowerCase() + '-' + family_name.toLowerCase()
+        
+        const result = await User.create({ email, firstName: given_name, lastName: family_name, displayName: `${given_name} ${family_name}`,  urlId: urlId, photoUrl: null });
+
+        const token = jwt.sign({ email: result.email, id: result._id}, 'test', { expiresIn: "10h"})
+
+        res.status(200).json({ result, token })
+
+    } catch (error) {
+        res.status(500).json({ message: 'Somthing went wrong.' })
+    }
+
+}
 
 export const signup = async (req, res) => {
     
@@ -53,7 +86,6 @@ export const signup = async (req, res) => {
         res.status(200).json({ result, token })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: 'Somthing went wrong.' })
     }
 
@@ -90,11 +122,7 @@ export const updateUser = async (req, res) => {
     const { id } = req.params;
     const { photoUrl, location, about, recruiter } = req.body
 
-    console.log(id)
-
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No user with that id');
-
-    console.log('after')
 
     try {
         const user = await User.findById(id)

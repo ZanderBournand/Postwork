@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Login.css";
 import {useNavigate} from 'react-router-dom'
-import Checkbox from '@mui/material/Checkbox';
+import {GoogleLogin} from '@react-oauth/google'
 import { Grid } from '@mui/material'
-import { signin, signup } from "../../redux/actions/auth";
+import { signin, signinGoogle, signup } from "../../redux/actions/auth";
 import Input from './Input'
 import LoginModal from "./LoginModal";
+import jwt_decode from 'jwt-decode'
 
 const Login = () => {
 
@@ -60,7 +61,16 @@ const Login = () => {
     const switchMode = () => {
         setIsSignUp((prevValue) => !prevValue)
         setShowPassword(false)
-      }
+    }
+
+    const googleSuccess = async (res) => {
+        const result = jwt_decode(res?.credential)
+        dispatch(signinGoogle(result))
+    }
+
+    const googleError = () => {
+        console.log("Google Sign In was unsuccessful. Try Again later")
+    }
     
     return (
     <>
@@ -103,7 +113,13 @@ const Login = () => {
                 <button className="submitButton" type='submit' onClick={handleSubmit}>
                     {isSignUp ? 'Sign Up' : 'Sign In'}
                 </button>
-                
+
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '15px'}}>
+                    <GoogleLogin 
+                        onSuccess={googleSuccess}
+                        onError={googleError}
+                    />
+                </div>
                 
             </form>
 

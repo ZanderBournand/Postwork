@@ -40,7 +40,7 @@ function App() {
             <Route path="/feed" element={<Home />}/>
             <Route path="/auth" element={(currentUser && currentUser?.photoUrl != null) ? <Navigate to="/" replace={true}/> : <Login />}/>
             <Route path="/bookmarks" element={<Bookmarks/>}/>
-            <Route path="/profile/:username" element={<Profile/>}/>
+            <Route path="/profile/:urlId" element={<Profile/>}/>
           </Routes>
         </>
       }

@@ -91,7 +91,7 @@ export default function ProfileInfo({user, posts, loading}) {
                     </div>
                     <div className='StatsContainer'>
                         {stats?.length > 0 && <div className='statsContentContainer'>
-                            <div className='statContainer'>
+                            <div className='statContainer1'>
                                 <BookmarkBorderRoundedIcon sx={{fontSize: 25, color: '#343434'}}/>
                                 <div className='statsText'>
                                     {stats[0]}

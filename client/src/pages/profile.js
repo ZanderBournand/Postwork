@@ -12,7 +12,7 @@ export default function Profile(){
     const {state} = useLocation()
     const currentUser = useSelector((state) => state.auth)?.result
     const profilePosts = useSelector((state) => state.posts.posts)
-    const { urldId } = useParams()
+    const { urlId } = useParams()
     const dispatch = useDispatch()
 
     const loading = useSelector((state) => state.posts.loading)
@@ -33,7 +33,7 @@ export default function Profile(){
                 dispatch({ type: POSTS_LOADING, loading: false })
             }
             else {
-                user = await getUserProfile(urldId)
+                user = await getUserProfile(urlId)
                 setUserProfile(user[0])
                 posts = await getPostsByUser(user[0]?._id)
             }
@@ -42,7 +42,7 @@ export default function Profile(){
         }
         getInfo()
         window.scrollTo(0, 0)
-    }, [urldId])
+    }, [urlId])
 
     return(
         <div className="profile_body">

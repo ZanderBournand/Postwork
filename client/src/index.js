@@ -23,7 +23,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <GoogleOAuthProvider clientId="***REMOVED***">
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_API}>
             <App />
           </GoogleOAuthProvider>
         </QueryClientProvider>

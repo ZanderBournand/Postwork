@@ -9,6 +9,7 @@ import {Link, useLocation} from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
 import decode from 'jwt-decode'
 import { searchPosts } from '../../redux/actions/posts';
+import logo from '../../assets/Postwork.png'
 
 export default function Header() {
     
@@ -46,7 +47,7 @@ export default function Header() {
             <div className='header'>
                 <div className='header_left'>
                     <img
-                        src="https://upload.wikimedia.org/wikipedia/en/thumb/1/14/Florida_Gators_gator_logo.svg/1200px-Florida_Gators_gator_logo.svg.png"
+                        src={logo}
                         alt=""/>
                     <div className="header_search">
                         <SearchIcon/>
@@ -56,7 +57,6 @@ export default function Header() {
                             onChange={event => {setSearchTerm(event.target.value)}}
                         />
                     </div>
-                    <h2>International Gator Job Board</h2>
                 </div>
                 <div className='header_right'>
                     <Link to="/" style={{ textDecoration: 'none' }}><HeaderOption Icon={HomeRoundedIcon} title='Home' size={40}/></Link>
@@ -77,7 +77,6 @@ export default function Header() {
                     <img
                         src="https://upload.wikimedia.org/wikipedia/en/thumb/1/14/Florida_Gators_gator_logo.svg/1200px-Florida_Gators_gator_logo.svg.png"
                         alt=""/>
-                    <h2>International Gator Job Board</h2>
                 </div>
             </div>
         )
